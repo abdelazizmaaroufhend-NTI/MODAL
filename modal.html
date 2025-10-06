@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right"
+        viewBox="0 0 16 16">
+        <path fill-rule="evenodd"
+            d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
+    </svg>
+
+    <!-- fonts -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Courgette&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+</head>
+<style>
+    
+ /* Lightbox styles */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+      z-index: 1050;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+    }
+
+    .lb-nav {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      pointer-events: auto;
+    }
+
+    .lb-nav a {
+      color: white;
+      font-size: 3rem;
+      padding: 0 20px;
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .lb-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2rem;
+      color: white;
+      cursor: pointer;
+    }
+</style>
+<body>
+    <!-- ✅ GALLERY SECTION -->
+    <div class="container mt-5">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <h5 class="fw-bold mb-3">GALLERY</h5>
+            <div class="row g-2 gallery">
+                <!-- 12 images -->
+                <div class="col-3"><a href="#"><img src="/pat0/pato-master/images/photo-gallery-01.jpg"
+                            class="img-fluid rounded" alt=""></a></div>
+                <div class="col-3"><a href="#"><img src="/pat0/pato-master/images/photo-gallery-02.jpg"
+                            class="img-fluid rounded" alt=""></a></div>
+                <div class="col-3"><a href="#"><img src="/pat0/pato-master/images/photo-gallery-03.jpg"
+                            class="img-fluid rounded" alt=""></a></div>
+                <div class="col-3"><a href="#"><img src="/pat0/pato-master/images/photo-gallery-04.jpg"
+                            class="img-fluid rounded" alt=""></a></div>
+                <div class="col-3"><a href="#"><img src="/pat0/pato-master/images/photo-gallery-05.jpg"
+                            class="img-fluid rounded" alt=""></a></div>
+                <div class="col-3"><a href="#"><img src="/pat0/pato-master/images/photo-gallery-06.jpg"
+                            class="img-fluid rounded" alt=""></a></div>
+                <div class="col-3"><a href="#"><img src="/pat0/pato-master/images/photo-gallery-07.jpg"
+                            class="img-fluid rounded" alt=""></a></div>
+                <div class="col-3"><a href="#"><img src="/pat0/pato-master/images/photo-gallery-08.jpg"
+                            class="img-fluid rounded" alt=""></a></div>
+                <div class="col-3"><a href="#"><img src="/pat0/pato-master/images/photo-gallery-09.jpg"
+                            class="img-fluid rounded" alt=""></a></div>
+                <div class="col-3"><a href="#"><img src="/pat0/pato-master/images/photo-gallery-10.jpg"
+                            class="img-fluid rounded" alt=""></a></div>
+                <div class="col-3"><a href="#"><img src="/pat0/pato-master/images/photo-gallery-11.jpg"
+                            class="img-fluid rounded" alt=""></a></div>
+                <div class="col-3"><a href="#"><img src="/pat0/pato-master/images/photo-gallery-12.jpg"
+                            class="img-fluid rounded" alt=""></a></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ LIGHTBOX HTML -->
+    <div class="lightbox" id="lightbox">
+        <span class="lb-close" id="closeBtn">&times;</span>
+        <img class="lb-image" id="lightboxImage" src="" alt="">
+        <div class="lb-nav">
+            <a href="#" class="lb-prev" id="prevBtn">&#10094;</a>
+            <a href="#" class="lb-next" id="nextBtn">&#10095;</a>
+        </div>
+    </div>
+
+    <!-- SCRIPT -->
+    <script>
+        const galleryImages = document.querySelectorAll('.gallery img');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const closeBtn = document.getElementById('closeBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        let currentIndex = 0;
+
+        function showLightbox(index) {
+            currentIndex = index;
+            lightboxImage.src = galleryImages[index].src;
+            lightbox.classList.add('active');
+        }
+
+        galleryImages.forEach((img, index) => {
+            img.addEventListener('click', (e) => {
+                e.preventDefault();
+                showLightbox(index);
+            });
+        });
+
+        closeBtn.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+
+        prevBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+            showLightbox(currentIndex);
+        });
+
+        nextBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            currentIndex = (currentIndex + 1) % galleryImages.length;
+            showLightbox(currentIndex);
+        });
+
+        // Optional: Close lightbox on outside click
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('active');
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
